@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'places.apps.PlacesConfig',
+    'django.contrib.gis',
 ]
 
 MIDDLEWARE = [
@@ -77,7 +78,7 @@ WSGI_APPLICATION = 'where_to_go.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
+        'ENGINE': 'django.contrib.gis.db.backends.spatialite',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
@@ -129,3 +130,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 MEDIA_ROOT = BASE_DIR
+
+
+SERIALIZATION_MODULES = {
+    "geojson": "django.contrib.gis.serializers.geojson", 
+ }
