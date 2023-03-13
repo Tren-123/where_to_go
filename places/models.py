@@ -13,7 +13,7 @@ class Place(models.Model):
 class Image(models.Model):
     place = models.ForeignKey(Place, on_delete=models.CASCADE)
     number = models.PositiveIntegerField()
-    image = models.ImageField(upload_to='static/images/places/')
+    image = models.ImageField(upload_to='media/images/places/')
 
     def __str__(self):
          return f'{self.number} {self.place}'
