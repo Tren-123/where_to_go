@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.gis.db import models
+from django.urls import reverse
 
 
 class Place(models.Model):
@@ -10,6 +11,9 @@ class Place(models.Model):
     
     def __str__(self):
         return f'{self.title}'
+    
+    def get_absolute_url(self):    
+        return reverse('place', kwargs={'pk': self.pk})
     
 class Image(models.Model):
     place = models.ForeignKey(Place, on_delete=models.CASCADE)

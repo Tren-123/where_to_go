@@ -15,12 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from where_to_go.views import index_page
+from where_to_go.views import index_page, get_place_info
 from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index_page),
+    path('places/<int:pk>', get_place_info, name='place'),
 ] + static('/', document_root=settings.MEDIA_ROOT)
 
