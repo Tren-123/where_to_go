@@ -4,8 +4,9 @@ from django import forms
 from .models import Place, Image
 from .forms import PlaceGeoInputForm
 from django.utils.html import format_html
+from adminsortable2.admin import SortableTabularInline, SortableAdminBase
 
-class ImageInline(admin.TabularInline):
+class ImageInline(SortableTabularInline):
     model = Image
     readonly_fields = ["preview_image"]
 
@@ -23,7 +24,7 @@ class ImageInline(admin.TabularInline):
                 )
     fields = ('image', 'preview_image', 'number')
 
-class PlaceAdmin(admin.ModelAdmin):
+class PlaceAdmin(SortableAdminBase, admin.ModelAdmin):
     formfield_overrides = {
         geomodels.PointField: {"widget": forms.TextInput},
     }

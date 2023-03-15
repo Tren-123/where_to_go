@@ -21,7 +21,7 @@ class Place(models.Model):
     
 class Image(models.Model):
     place = models.ForeignKey(Place, on_delete=models.CASCADE, verbose_name="Место")
-    number = models.PositiveIntegerField(verbose_name="Позиция")
+    number = models.PositiveIntegerField(default=0, blank=False, null = False, verbose_name="Позиция")
     image = models.ImageField(upload_to='media/images/places/', verbose_name="Картинка")
 
     def __str__(self):
@@ -30,3 +30,4 @@ class Image(models.Model):
     class Meta:
         verbose_name = "Фотография"
         verbose_name_plural = "Фотографии"
+        ordering = ['number']
