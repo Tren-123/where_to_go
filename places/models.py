@@ -1,12 +1,14 @@
 from django.db import models
 from django.contrib.gis.db import models
 from django.urls import reverse
+from tinymce.widgets import TinyMCE
+from tinymce import models as tinymce_models
 
 
 class Place(models.Model):
     title = models.CharField(max_length=255, verbose_name="Название")
     description_short = models.TextField(verbose_name="Короткое описание")
-    description_long = models.TextField(verbose_name="Длинное описание")
+    description_long = tinymce_models.HTMLField(verbose_name="Длинное описание")
     coordinates = models.PointField(srid=4326, blank=True, verbose_name="Координаты")
     
     def __str__(self):

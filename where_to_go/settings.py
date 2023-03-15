@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'places.apps.PlacesConfig',
     'django.contrib.gis',
     'adminsortable2',
+    'tinymce',
 ]
 
 MIDDLEWARE = [
