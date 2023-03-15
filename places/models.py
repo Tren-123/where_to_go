@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.gis.db import models
 from django.urls import reverse
-from tinymce.widgets import TinyMCE
 from tinymce import models as tinymce_models
 
 

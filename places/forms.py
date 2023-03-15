@@ -19,19 +19,18 @@ class PlaceGeoInputForm(forms.ModelForm):
     class Meta(object):
         model = Place
         exclude = []
-        widgets = {'point': forms.HiddenInput()}
+        widgets = {'coordinates': forms.HiddenInput()}
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        coordinates = self.initial.get('point', None)
+        coordinates = self.initial.get('coordinates', None)
         if isinstance(coordinates, Point):
             self.initial['longitude'], self.initial['latitude'] = coordinates.tuple
 
     def clean(self):
         data = super().clean()
-        latitude = data.get('latitude')
-        longitude = data.get('longitude')
-        point = data.get('point')
-        if latitude and longitude and not point:
-            data['point'] = Point(longitude, latitude)
+        latitude = data.get('latitude', False)
+        longitude = data.get('longitude', False)
+        data['coordinates'] = Point(longitude, latitude)
         return data
+        
