@@ -27,6 +27,7 @@ class PlaceAdmin(SortableAdminBase, admin.ModelAdmin):
         ImageInline,
     ]
     form = PlaceGeoInputForm
+    search_fields = ['title']
 
 admin.site.register(Place, PlaceAdmin)
 admin.site.register(Image)
