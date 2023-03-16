@@ -1,0 +1,6 @@
+asgiref==3.6.0
+Django==4.1.7
+django-admin-sortable2==2.1.4
+django-tinymce==3.5.0
+Pillow==9.4.0
+sqlparse==0.4.3
