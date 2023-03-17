@@ -1,5 +1,5 @@
 # Учебный проект: сайт - интерактивная карта Москвы с интересными местами
-Рабочая версия сайта - http://tren123.pythonanywhere.com/\
+Рабочая версия сайта - http://tren123.pythonanywhere.com/  
 Фронтенд предоставила команда devman - [репозиторий](https://github.com/devmanorg/where-to-go-frontend)
 
 ## Особенности проекта:
