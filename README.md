@@ -41,11 +41,24 @@ $ python3 manage.py runserver
 - ссылка на панель админа http://127.0.0.1:8000/admin/
 
 ## Переменные окружения и пример json файла с контентом для сайта
+Для работы проекта требуются следующие переменные окружения:
+- $SECRET_KEY - секретный ключ, не выкладывайте данное значение в открытый доступ. Подробнее в [документации](https://docs.djangoproject.com/en/4.1/ref/settings/#secret-key) django
+- $DEBUG - настройка представления информации об ошибках. Никогда не используйте значение True в продакшене. Подробнее в [документации](https://docs.djangoproject.com/en/4.1/ref/settings/#debug) django
+- $ALLOWED_HOSTS - Список доверенных значений хост/домен. Подробнее в [документации](https://docs.djangoproject.com/en/4.1/ref/settings/#allowed-hosts
+) django 
+Пример файла .env со значениями переменных для запуска **dev** версии сайта
 ```
-$SECRET_KEY
-$DEBUG
-$ALLOWED_HOSTS
+$SECRET_KEY=your_secret_key_keep_it_in_secret
+$DEBUG=True
+$ALLOWED_HOSTS=127.0.0.1:8000 localhost:8000
 ```
+Пример файла .env со значениями переменных для запуска **prod** версии сайта
+```
+$SECRET_KEY=your_secret_key_keep_it_in_secret
+$DEBUG=False
+$ALLOWED_HOSTS=your_host_name_1 your_host_name_2 ...
+```
+Пример json файла с контентом для сайта
 ```
 {
     "title": "Антикафе Bizone",
