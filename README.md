@@ -46,6 +46,7 @@ $ python3 manage.py runserver
 - $DEBUG - настройка представления информации об ошибках. Никогда не используйте значение True в продакшене. Подробнее в [документации](https://docs.djangoproject.com/en/4.1/ref/settings/#debug) django
 - $ALLOWED_HOSTS - Список доверенных значений хост/домен. Подробнее в [документации](https://docs.djangoproject.com/en/4.1/ref/settings/#allowed-hosts
 ) django 
+
 Пример файла .env со значениями переменных для запуска **dev** версии сайта
 ```
 $SECRET_KEY=your_secret_key_keep_it_in_secret
