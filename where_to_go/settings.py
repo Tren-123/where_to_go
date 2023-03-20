@@ -12,6 +12,11 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import os
+from environs import Env
+
+env = Env()
+# Read .env into os.environ
+env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -21,14 +26,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-)+qy^wc7fglt8((sxcy8d!$99o6hkon((ue6+9vque8g!jf4i3')
+SECRET_KEY = env.str('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG_VALUE = os.environ.get('DEBUG', True)# set DEBUG=0 in production!
-DEBUG = bool(int(DEBUG_VALUE))
-ALLOWED_HOSTS = []
-# DEBUG should equel 0 in production for work of code below
-if not DEBUG and os.environ.get('ALLOWED_HOSTS'): 
-    ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS').split(' ')
+DEBUG_VALUE = env.bool('DEBUG')
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
 
 # Application definition
 
@@ -127,8 +128,7 @@ STATICFILES_DIRS = [
 ]
 
 # Serve static files in 'staticfiles' folder in production server
-if not DEBUG: 
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -142,3 +142,8 @@ MEDIA_ROOT = BASE_DIR
 SERIALIZATION_MODULES = {
     "geojson": "django.contrib.gis.serializers.geojson", 
  }
+
+try:
+    from where_to_go.local_settings import *
+except ImportError:
+    pass

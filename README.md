@@ -49,13 +49,13 @@ $ python3 manage.py runserver
 Пример файла .env со значениями переменных для запуска **dev** версии сайта
 ```
 $SECRET_KEY=your_secret_key_keep_it_in_secret
-$DEBUG=True
+$DEBUG=true
 $ALLOWED_HOSTS=127.0.0.1:8000 localhost:8000
 ```
 Пример файла .env со значениями переменных для запуска **prod** версии сайта
 ```
 $SECRET_KEY=your_secret_key_keep_it_in_secret
-$DEBUG=False
+$DEBUG=false
 $ALLOWED_HOSTS=your_host_name_1 your_host_name_2 ...
 ```
 Пример json файла с контентом для сайта
