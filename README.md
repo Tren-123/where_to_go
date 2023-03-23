@@ -2,7 +2,7 @@
 Рабочая версия сайта - http://tren123.pythonanywhere.com/  
 Фронтенд предоставила команда devman - [репозиторий](https://github.com/devmanorg/where-to-go-frontend)
 
-## Особенности проекта:
+## Особенности проекта
 - Кастомизированная панель админа - превью загружаемых фотографий, удобный редактор описаний мест, удобное добавление и сортировка фотографий в одном окне 
 - API с 1 методом для передачи данных с бэкэнда на фронтэнд
 - Пользовательская консольная команда для загрузки контента из файла json: 
@@ -10,54 +10,75 @@
 $ python3 manage.py load_place http://адрес/файла.json
 ```
 
+## Инструкции по развертыванию проекта 
+### Установка дополнительных пакетов для работы GeoDjango
+Проект использует расширение SpatiaLite для базы данных SQLite для работы с geo данными. Для установки на Linux Ubuntu 22.04 используйте команды ниже, для других OS смотрите [документацию](https://docs.djangoproject.com/en/4.1/ref/contrib/gis/install/) Django
+```
+sudo apt install binutils libproj-dev gdal-bin
+sudo apt install libsqlite3-mod-spatialite 
+```
 
-## Инструкция по поднятию dev версии на локальном компьютере:
-- клонировать репозиторий
+### Инструкция по поднятию dev версии на локальном компьютере:
+1. Клонировать репозиторий
 ```
 $ git clone https://github.com/Tren-123/where_to_go
 ```
-- установить зависимости
+2. Установить зависимости
 ```
 $ pip install -r requirements.txt
 ```
-- создать и наполнить бд тестовыми данными
+3. Создать файл .env и установить значения переменным окружения([подробнее](#переменные-окружения-и-пример-json-файла-с-контентом-для-сайта)) в корневой папке проекта *where_to_go/*
+```
+where_to_go
+├── .env
+└── manage.py
+└── ...
+```
+Добавьте в файл .env переменные:
+```
+SECRET_KEY=your_secret_key_keep_it_in_secret
+DEBUG=true
+ALLOWED_HOSTS=127.0.0.1,localhost
+```
+4. Создать и наполнить бд тестовыми данными
 ```
 $ python3 manage.py migrate
 ```
-[репозиторий](https://github.com/devmanorg/where-to-go-places/tree/master/places) с тестовыми данными\
-команда для загрузки тестовых данных:
+[Репозиторий](https://github.com/devmanorg/where-to-go-places/tree/master/places) с тестовыми данными.\
+Команда для загрузки тестовых данных:
 ```
 $ python3 manage.py load_place http://адрес/файла.json
 ```
-- создать пользователя админки
+5. Создать пользователя админки
 ```
 $ python3 manage.py createsuperuser
 ```
-- запустить сайт на локальном компьютетере
+6. Запустить сайт на локальном компьютетере
 ```
 $ python3 manage.py runserver
 ```
+7. Проверьте работу сайт по ссылкам
 - ссылка на сайт http://127.0.0.1:8000/
 - ссылка на панель админа http://127.0.0.1:8000/admin/
 
 ## Переменные окружения и пример json файла с контентом для сайта
 Для работы проекта требуются следующие переменные окружения:
-- $SECRET_KEY - секретный ключ, не выкладывайте данное значение в открытый доступ. Подробнее в [документации](https://docs.djangoproject.com/en/4.1/ref/settings/#secret-key) django
-- $DEBUG - настройка представления информации об ошибках. Никогда не используйте значение True в продакшене. Подробнее в [документации](https://docs.djangoproject.com/en/4.1/ref/settings/#debug) django
-- $ALLOWED_HOSTS - Список доверенных значений хост/домен. Подробнее в [документации](https://docs.djangoproject.com/en/4.1/ref/settings/#allowed-hosts
-) django 
+- SECRET_KEY - секретный ключ, не выкладывайте данное значение в открытый доступ. Подробнее в [документации](https://docs.djangoproject.com/en/4.1/ref/settings/#secret-key) Django
+- DEBUG - настройка представления информации об ошибках. Никогда не используйте значение True в продакшене. Подробнее в [документации](https://docs.djangoproject.com/en/4.1/ref/settings/#debug) Django
+- ALLOWED_HOSTS - Список доверенных значений хост/домен. Подробнее в [документации](https://docs.djangoproject.com/en/4.1/ref/settings/#allowed-hosts
+) Django 
 
 Пример файла .env со значениями переменных для запуска **dev** версии сайта
 ```
-$SECRET_KEY=your_secret_key_keep_it_in_secret
-$DEBUG=true
-$ALLOWED_HOSTS=127.0.0.1:8000 localhost:8000
+SECRET_KEY=your_secret_key_keep_it_in_secret
+DEBUG=true
+ALLOWED_HOSTS=127.0.0.1,localhost
 ```
 Пример файла .env со значениями переменных для запуска **prod** версии сайта
 ```
-$SECRET_KEY=your_secret_key_keep_it_in_secret
-$DEBUG=false
-$ALLOWED_HOSTS=your_host_name_1 your_host_name_2 ...
+SECRET_KEY=your_secret_key_keep_it_in_secret
+DEBUG=false
+ALLOWED_HOSTS=your_host_name_1,your_host_name_2 ...
 ```
 Пример json файла с контентом для сайта
 ```

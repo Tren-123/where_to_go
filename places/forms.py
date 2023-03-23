@@ -33,4 +33,3 @@ class PlaceGeoInputForm(forms.ModelForm):
         longitude = data.get('longitude', False)
         data['coordinates'] = Point(longitude, latitude)
         return data
-        

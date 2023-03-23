@@ -7,15 +7,18 @@ from django.http import JsonResponse
 
 def index_page(request):
     places = Place.objects.all()
-    geojson_data = serialize('geojson', places, geometry_field='coordinates',
-          fields=('title', 'pk'))
+    geojson_data = serialize(
+        'geojson',
+        places,
+        geometry_field='coordinates',
+        fields=('title', 'pk')
+        )
     encoded_geojson_data = json.loads(geojson_data)
-    for item in encoded_geojson_data["features"]:
+    for item in encoded_geojson_data['features']:
         pk = item['properties'].pop('pk')
         item['properties']['placeId'] = pk
-        item['properties']['detailsUrl'] = f'places/{pk}'
-    
-    return render(request, 'index.html', context={"places_data": encoded_geojson_data})
+        item['properties']['detailsUrl'] = f'places/{pk}/'
+    return render(request, 'index.html', context={'places_data': encoded_geojson_data})
 
 
 def get_place_info(request, pk):

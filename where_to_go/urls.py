@@ -25,4 +25,3 @@ urlpatterns = [
     path('places/<int:pk>/', get_place_info, name='place'),
     path('tinymce/', include('tinymce.urls')),
 ] + static('/', document_root=settings.MEDIA_ROOT)
-
