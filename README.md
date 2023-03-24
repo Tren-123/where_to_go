@@ -12,9 +12,8 @@ $ python3 manage.py load_place http://адрес/файла.json
 
 ## Инструкции по развертыванию проекта 
 ### Установка дополнительных пакетов для работы GeoDjango
-Проект использует расширение SpatiaLite для базы данных SQLite для работы с geo данными. Для установки на Linux Ubuntu 22.04 используйте команды ниже, для других OS смотрите [документацию](https://docs.djangoproject.com/en/4.1/ref/contrib/gis/install/) Django
+Проект использует расширение SpatiaLite для базы данных SQLite для работы с geo данными. Для установки на Linux Ubuntu 22.04 используйте команду ниже, для других OS смотрите [документацию](https://docs.djangoproject.com/en/4.1/ref/contrib/gis/install/) Django
 ```
-sudo apt install binutils libproj-dev gdal-bin
 sudo apt install libsqlite3-mod-spatialite 
 ```
 
