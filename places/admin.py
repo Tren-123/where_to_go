@@ -10,18 +10,11 @@ class ImageInline(SortableTabularInline):
     readonly_fields = ['preview_image']
 
     def preview_image(self, img):
-        if img.image.height > 200:
-            preview_width = int(img.image.width/(img.image.height/200))
-            preview_height = 200
-        else:
-            preview_width = img.image.width
-            preview_height = img.image.height
         return format_html(
-            '<img src="{url}" width="{width}" height={height} />',
+            '<img src="{url}" height="{height}" width="auto"/>',
             url=img.image.url,
-            width=preview_width,
-            height=preview_height,
-                )
+            height=200,
+            )
     fields = ('image', 'preview_image', 'number')
 
 
