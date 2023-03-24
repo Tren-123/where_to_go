@@ -1,24 +1,29 @@
 from django.shortcuts import render, get_object_or_404
 from places.models import Place, Image
-from django.core.serializers import serialize
-import json
 from django.http import JsonResponse
 
 
 def index_page(request):
     places = Place.objects.all()
-    geojson_data = serialize(
-        'geojson',
-        places,
-        geometry_field='coordinates',
-        fields=('title', 'pk'),
-    )
-    encoded_geojson_data = json.loads(geojson_data)
-    for item in encoded_geojson_data['features']:
-        pk = item['properties'].pop('pk')
-        item['properties']['placeId'] = pk
-        item['properties']['detailsUrl'] = f'places/{pk}/'
-    return render(request, 'index.html', context={'places_data': encoded_geojson_data})
+    places_geojson = {
+                "type": "FeatureCollection",
+                "features": [],
+    }
+    for place in places:
+        place_data = {
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": place.coordinates.coords
+            },
+            "properties": {
+                "title": place.title,
+                "placeId": place.pk,
+                "detailsUrl": f'places/{place.pk}/'
+            },
+        }
+        places_geojson['features'].append(place_data)
+    return render(request, 'index.html', context={'places_geojson': places_geojson})
 
 
 def get_place_info(request, pk):
