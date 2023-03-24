@@ -11,8 +11,8 @@ def index_page(request):
         'geojson',
         places,
         geometry_field='coordinates',
-        fields=('title', 'pk')
-        )
+        fields=('title', 'pk'),
+    )
     encoded_geojson_data = json.loads(geojson_data)
     for item in encoded_geojson_data['features']:
         pk = item['properties'].pop('pk')
