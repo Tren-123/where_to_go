@@ -17,23 +17,25 @@ class Command(BaseCommand):
             for file in options['json_files']:
                 r = requests.get(file)
                 data = r.json()
-                place_obj = Place.objects.create(
+                place = Place.objects.create(
                     title=data['title'],
                     description_short=data['description_short'],
                     description_long=data['description_long'],
                     coordinates=Point(float(data['coordinates']['lng']),
                                       float(data['coordinates']['lat'])),
                 )
-                img_objs_lst = []
-                for index, img in enumerate(data['imgs']):
-                    r = requests.get(img)
+                img_lst = []
+                for index, img_link in enumerate(data['imgs']):
+                    r = requests.get(img_link)
                     img_content = ContentFile(r.content)
-                    img_obj = Image(place=place_obj, number=index+1)
-                    img_obj.image.save(f'{place_obj.title}.jpg',
-                                       img_content,
-                                       save=False)
-                    img_objs_lst.append(img_obj)
-                Image.objects.bulk_create(img_objs_lst)
+                    img = Image(place=place, number=index+1)
+                    img.image.save(
+                        f'{place.title}.jpg',
+                        img_content,
+                        save=False,
+                    )
+                    img_lst.append(img)
+                Image.objects.bulk_create(img_lst)
             self.stdout.write(self.style.SUCCESS('Download successfull'))
         except requests.exceptions.JSONDecodeError:
             self.stdout.write('Download not complete. Your file not json')
