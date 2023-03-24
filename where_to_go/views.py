@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from places.models import Place, Image
+from places.models import Place
 from django.http import JsonResponse
 
 
@@ -27,17 +27,17 @@ def index_page(request):
 
 
 def get_place_info(request, pk):
-    place_obj = get_object_or_404(Place, pk=pk)
-    place_imgs_qstring = Image.objects.filter(place=place_obj)
-    place_imgs_lst = [image.image.url for image in place_imgs_qstring]
+    place = get_object_or_404(Place, pk=pk)
+    place_imgs_lst = [img.image.url for img in place.images.all()]
+    longitude, latitude = place.coordinates
     place_info = {
-        'title': place_obj.title,
+        'title': place.title,
         'imgs': place_imgs_lst,
-        'description_short': place_obj.description_short,
-        'description_long': place_obj.description_long,
+        'description_short': place.description_short,
+        'description_long': place.description_long,
         'coordinates': {
-            'lng': place_obj.coordinates[0],
-            'lat': place_obj.coordinates[1]
+            'lng': longitude,
+            'lat': latitude
             }
     }
-    return JsonResponse(place_info)
+    return JsonResponse(place_info, json_dumps_params={'ensure_ascii': False, 'indent': 2})
