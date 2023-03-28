@@ -14,7 +14,7 @@ class ImageInline(SortableTabularInline):
             '<img src="{url}" height="{height}" width="auto"/>',
             url=img.image.url,
             height=200,
-            )
+        )
     fields = ('image', 'preview_image', 'number')
 
 

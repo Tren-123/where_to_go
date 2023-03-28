@@ -4,7 +4,6 @@ from django.contrib.gis.geos import Point
 
 
 class PlaceGeoInputForm(forms.ModelForm):
-
     latitude = forms.FloatField(
         min_value=-90,
         max_value=90,

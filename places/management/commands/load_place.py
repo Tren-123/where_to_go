@@ -2,6 +2,7 @@ from django.core.management.base import BaseCommand
 from places.models import Place, Image
 from django.contrib.gis.geos import Point
 from django.core.files.base import ContentFile
+from django.core.files.images import ImageFile
 import requests
 
 
@@ -15,27 +16,26 @@ class Command(BaseCommand):
         self.stdout.write('Download in progress...')
         try:
             for file in options['json_files']:
-                r = requests.get(file)
-                data = r.json()
+                response = requests.get(file)
+                raw_place = response.json()
                 place = Place.objects.create(
-                    title=data['title'],
-                    description_short=data['description_short'],
-                    description_long=data['description_long'],
-                    coordinates=Point(float(data['coordinates']['lng']),
-                                      float(data['coordinates']['lat'])),
+                    title=raw_place['title'],
+                    description_short=raw_place.get('description_short', ''),
+                    description_long=raw_place.get('description_long', ''),
+                    coordinates=Point(float(raw_place['coordinates']['lng']),
+                                      float(raw_place['coordinates']['lat'])),
                 )
-                img_lst = []
-                for index, img_link in enumerate(data['imgs']):
-                    r = requests.get(img_link)
-                    img_content = ContentFile(r.content)
-                    img = Image(place=place, number=index+1)
-                    img.image.save(
-                        f'{place.title}.jpg',
-                        img_content,
-                        save=False,
+                imgs = []
+                for index, img_link in enumerate(raw_place['imgs'], 1):
+                    response = requests.get(img_link)
+                    img_content = ContentFile(response.content)
+                    img = Image(
+                        place=place,
+                        number=index,
+                        image=ImageFile(img_content, f'{place.title}.jpg'),
                     )
-                    img_lst.append(img)
-                Image.objects.bulk_create(img_lst)
+                    imgs.append(img)
+                Image.objects.bulk_create(imgs)
             self.stdout.write(self.style.SUCCESS('Download successfull'))
         except requests.exceptions.JSONDecodeError:
             self.stdout.write('Download not complete. Your file not json')
