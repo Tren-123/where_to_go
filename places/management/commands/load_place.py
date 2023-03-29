@@ -17,7 +17,10 @@ class Command(BaseCommand):
         try:
             for file in options['json_files']:
                 response = requests.get(file)
+                response.raise_for_status()
                 raw_place = response.json()
+                if 'error' in raw_place:
+                    raise requests.exceptions.HTTPError(raw_place['error'])
                 place = Place.objects.create(
                     title=raw_place['title'],
                     description_short=raw_place.get('description_short', ''),
@@ -26,8 +29,9 @@ class Command(BaseCommand):
                                       float(raw_place['coordinates']['lat'])),
                 )
                 imgs = []
-                for index, img_link in enumerate(raw_place['imgs'], 1):
+                for index, img_link in enumerate(raw_place.get('imgs', []), 1):
                     response = requests.get(img_link)
+                    response.raise_for_status()
                     img_content = ContentFile(response.content)
                     img = Image(
                         place=place,
@@ -38,4 +42,4 @@ class Command(BaseCommand):
                 Image.objects.bulk_create(imgs)
             self.stdout.write(self.style.SUCCESS('Download successfull'))
         except requests.exceptions.JSONDecodeError:
-            self.stdout.write('Download not complete. Your file not json')
+            self.stdout.write('Download not complete. Your file not json or has invalid format')
