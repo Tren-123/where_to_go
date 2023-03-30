@@ -22,11 +22,11 @@ def index_page(request):
                 },
             }
         )
-    places_futures_collection = {
+    places_feature_collection = {
         'type': 'FeatureCollection',
         'features': places_features,
     }
-    return render(request, 'index.html', context={'places_futures_collection': places_futures_collection})
+    return render(request, 'index.html', context={'places_feature_collection': places_feature_collection})
 
 
 def get_place_info(request, pk):
